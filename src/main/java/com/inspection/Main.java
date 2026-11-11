@@ -5,6 +5,7 @@ import com.inspection.visitor.ComplianceVisitor;
 import com.inspection.visitor.ProjectStatisticsVisitor;
 import com.inspection.visitor.QualityGateVisitor;
 import com.inspection.visitor.SecurityAuditVisitor;
+import com.inspection.visitor.TechnicalDebtVisitor;
 
 /** Runs every visitor on the same fintech project and prints the reports. */
 public class Main {
@@ -30,6 +31,10 @@ public class Main {
         ComplianceVisitor compliance = new ComplianceVisitor();
         project.accept(compliance);
         System.out.println(compliance.getReport());
+
+        TechnicalDebtVisitor debt = new TechnicalDebtVisitor();
+        project.accept(debt);
+        System.out.println(debt.getReport());
 
         // and now the fixed version of the project, to show the gate can also PASS
         Directory fixed = DemoProject.fixedFintechProject();

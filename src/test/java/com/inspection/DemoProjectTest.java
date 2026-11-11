@@ -5,6 +5,7 @@ import com.inspection.visitor.ComplianceVisitor;
 import com.inspection.visitor.ProjectStatisticsVisitor;
 import com.inspection.visitor.QualityGateVisitor;
 import com.inspection.visitor.SecurityAuditVisitor;
+import com.inspection.visitor.TechnicalDebtVisitor;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,11 +23,13 @@ class DemoProjectTest {
         ProjectStatisticsVisitor stats = new ProjectStatisticsVisitor();
         QualityGateVisitor gate = new QualityGateVisitor();
         ComplianceVisitor compliance = new ComplianceVisitor();
+        TechnicalDebtVisitor debt = new TechnicalDebtVisitor();
 
         project.accept(security);
         project.accept(stats);
         project.accept(gate);
         project.accept(compliance);
+        project.accept(debt);
 
         assertEquals(3, security.getCriticalCount());
         assertEquals(34, security.getScore());
@@ -44,6 +47,9 @@ class DemoProjectTest {
         assertFalse(gate.isReleaseReady());
 
         assertEquals(5, compliance.getViolations().size());
+
+        assertEquals(12.5, debt.getTotalDebtHours(), 0.0001);
+        assertEquals("B", debt.getRating());
     }
 
     @Test
